@@ -1,4 +1,4 @@
-package pl.marchuck.blenavigator.lib.device.adrecord;
+package pl.marchuck.blenavigator.ble;
 
 import android.os.Bundle;
 import android.os.Parcel;

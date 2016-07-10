@@ -1,4 +1,4 @@
-package pl.marchuck.blenavigator;
+package pl.marchuck.blenavigator.common;
 /*
  * Copyright (c) 2014 Badoo Trading Limited
  * Permission is hereby granted, free of charge, to any person obtaining a copy

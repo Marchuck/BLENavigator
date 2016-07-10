@@ -1,4 +1,4 @@
-package pl.marchuck.blenavigator.lib.util;
+package pl.marchuck.blenavigator.utils;
 
 import android.annotation.SuppressLint;
 import android.util.SparseArray;
@@ -10,8 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pl.marchuck.blenavigator.lib.device.adrecord.AdRecord;
-
+import pl.marchuck.blenavigator.ble.AdRecord;
 
 public final class AdRecordUtils {
 

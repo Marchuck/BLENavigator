@@ -1,16 +1,15 @@
-package pl.marchuck.blenavigator.lib.device.adrecord;
+package pl.marchuck.blenavigator.ble;
 
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.util.SparseArray;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
-import pl.marchuck.blenavigator.lib.util.AdRecordUtils;
+import pl.marchuck.blenavigator.utils.AdRecordUtils;
 
 
 /**

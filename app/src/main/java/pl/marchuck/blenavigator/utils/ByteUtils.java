@@ -1,12 +1,4 @@
-package pl.marchuck.blenavigator;
-
-/**
- * @author Lukasz Marczak
- * @since 10.07.16.
- */
-
-import java.nio.ByteBuffer;
-
+package pl.marchuck.blenavigator.utils;
 
 import java.nio.ByteBuffer;
 
@@ -17,7 +9,7 @@ public class ByteUtils {
      */
     private static final String HEXES = "0123456789ABCDEF";
 
-    private ByteUtils() {
+    private ByteUtils(){
         // TO AVOID INSTANTIATION
     }
 
@@ -66,33 +58,6 @@ public class ByteUtils {
         }
 
         return true;
-    }
-    public static String calculateUuidString(final byte[] uuid) {
-        final StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < uuid.length; i++) {
-            if (i == 4) {
-                sb.append('-');
-            }
-            if (i == 6) {
-                sb.append('-');
-            }
-            if (i == 8) {
-                sb.append('-');
-            }
-            if (i == 10) {
-                sb.append('-');
-            }
-
-            final int intFromByte = ByteUtils.getIntFromByte(uuid[i]);
-            if(intFromByte <= 0xF){
-                sb.append('0');
-            }
-            sb.append(Integer.toHexString(intFromByte));
-        }
-
-
-        return sb.toString();
     }
 
     /**
@@ -160,5 +125,31 @@ public class ByteUtils {
             array[size - 1 - i] = temp;
         }
     }
-}
+    public static String calculateUuidString(final byte[] uuid) {
+        final StringBuilder sb = new StringBuilder();
 
+        for (int i = 0; i < uuid.length; i++) {
+            if (i == 4) {
+                sb.append('-');
+            }
+            if (i == 6) {
+                sb.append('-');
+            }
+            if (i == 8) {
+                sb.append('-');
+            }
+            if (i == 10) {
+                sb.append('-');
+            }
+
+            final int intFromByte = ByteUtils.getIntFromByte(uuid[i]);
+            if(intFromByte <= 0xF){
+                sb.append('0');
+            }
+            sb.append(Integer.toHexString(intFromByte));
+        }
+
+
+        return sb.toString();
+    }
+}

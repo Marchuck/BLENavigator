@@ -1,12 +1,9 @@
-package pl.marchuck.blenavigator.lib.device.beacon.ibeacon;
+package pl.marchuck.blenavigator.ble;
 
 import java.util.Arrays;
 
-import pl.marchuck.blenavigator.lib.device.BluetoothLeDevice;
-import pl.marchuck.blenavigator.lib.device.adrecord.AdRecord;
-import pl.marchuck.blenavigator.lib.device.beacon.BeaconManufacturerData;
-import pl.marchuck.blenavigator.lib.device.beacon.BeaconType;
-import pl.marchuck.blenavigator.lib.util.ByteUtils;
+import pl.marchuck.blenavigator.utils.ByteUtils;
+
 
 /**
  * Parses the Manufactured Data field of an iBeacon
@@ -41,10 +38,11 @@ import pl.marchuck.blenavigator.lib.util.ByteUtils;
  * 23	00
  * 24	c5 - The 2's complement of the calibrated Tx Power
  * </pre>
+ *
  * @author Alexandros Schillings
  */
 
-public final class IBeaconManufacturerData extends BeaconManufacturerData {
+public final class IBeaconData {
     private final int mCalibratedTxPower;
     private final int mCompanyIdentidier;
     private final int mIBeaconAdvertisment;
@@ -52,34 +50,43 @@ public final class IBeaconManufacturerData extends BeaconManufacturerData {
     private final int mMinor;
     private final String mUUID;
 
-    /**
-     * Instantiates a new iBeacon manufacturer data object.
-     *
-     * @param device a {@link BluetoothLeDevice}
-     * @throws IllegalArgumentException if the data is not from an iBeacon.
-     */
-    public IBeaconManufacturerData(final BluetoothLeDevice device) {
-        this(device.getAdRecordStore().getRecord(AdRecord.TYPE_MANUFACTURER_SPECIFIC_DATA).getData());
-    }
+//    /**
+//     * Instantiates a new iBeacon manufacturer data object.
+//     *
+//     * @param device a {@link BluetoothLeDevice}
+//     * @throws IllegalArgumentException if the data is not from an iBeacon.
+//     */
+//    public IBeaconData(final BluetoothLeDevice device) {
+//        this(device.getAdRecordStore().getRecord(AdRecord.TYPE_MANUFACTURER_SPECIFIC_DATA).getData());
+//    }
 
-    /**
-     * Instantiates a new iBeacon manufacturer data object.
-     *
-     * @param manufacturerData the {@link AdRecord#TYPE_MANUFACTURER_SPECIFIC_DATA} data array
-     * @throws IllegalArgumentException if the data is not from an iBeacon.
-     */
-    public IBeaconManufacturerData(final byte[] manufacturerData) {
-        super(BeaconType.IBEACON, manufacturerData);
+//    /**
+//     * Instantiates a new iBeacon manufacturer data object.
+//     *
+//     * @param manufacturerData the {@link AdRecord#TYPE_MANUFACTURER_SPECIFIC_DATA} data array
+//     * @throws IllegalArgumentException if the data is not from an iBeacon.
+//     */
+    public IBeaconData(final byte[] manufacturerData) {
 
         final byte[] intArray = Arrays.copyOfRange(manufacturerData, 0, 2);
-        ByteUtils.invertArray(intArray);
+        //ByteUtils.invertArray(intArray);
 
         mCompanyIdentidier = ByteUtils.getIntFrom2ByteArray(intArray);
         mIBeaconAdvertisment = ByteUtils.getIntFrom2ByteArray(Arrays.copyOfRange(manufacturerData, 2, 4));
-        mUUID = IBeaconUtils.calculateUuidString(Arrays.copyOfRange(manufacturerData, 4, 20));
+        mUUID = ByteUtils.calculateUuidString(Arrays.copyOfRange(manufacturerData, 4, 20));
         mMajor = ByteUtils.getIntFrom2ByteArray(Arrays.copyOfRange(manufacturerData, 20, 22));
         mMinor = ByteUtils.getIntFrom2ByteArray(Arrays.copyOfRange(manufacturerData, 22, 24));
         mCalibratedTxPower = manufacturerData[24];
+    }
+
+    @Override
+    public String toString() {
+        return "mCalibratedTxPower=" + mCalibratedTxPower +
+                ", mCompanyIdentidier=" + mCompanyIdentidier +
+                ", mIBeaconAdvertisment=" + mIBeaconAdvertisment +
+                ", mMajor=" + mMajor +
+                ", mMinor=" + mMinor +
+                ", mUUID='" + mUUID ;
     }
 
     /**
@@ -131,3 +138,4 @@ public final class IBeaconManufacturerData extends BeaconManufacturerData {
         return mUUID;
     }
 }
+

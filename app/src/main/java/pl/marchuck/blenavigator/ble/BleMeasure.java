@@ -1,18 +1,15 @@
-package pl.marchuck.blenavigator;
+package pl.marchuck.blenavigator.ble;
 
 import android.support.annotation.IntDef;
 import android.util.Log;
 
-import com.polidea.rxandroidble.RxBleDevice;
 import com.polidea.rxandroidble.RxBleScanResult;
-import com.polidea.rxandroidble.internal.RxBleInternalScanResult;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import pl.marchuck.blenavigator.lib.device.adrecord.AdRecord;
-import pl.marchuck.blenavigator.lib.device.adrecord.AdRecordStore;
-import pl.marchuck.blenavigator.lib.util.AdRecordUtils;
+import pl.marchuck.blenavigator.utils.AdRecordUtils;
+
 
 /**
  * @author Lukasz Marczak
@@ -21,8 +18,8 @@ import pl.marchuck.blenavigator.lib.util.AdRecordUtils;
 public class BleMeasure {
     public static final String TAG = BleMeasure.class.getSimpleName();
 
-    @Distance
-    public static int getDistance(RxBleScanResult result) {
+
+    public static double calculateAccuracy(RxBleScanResult result) {
         AdRecordStore adRecordStore = new AdRecordStore(AdRecordUtils.parseScanRecordAsSparseArray(result.getScanRecord()));
         AdRecord record = adRecordStore.getRecord(AdRecord.TYPE_MANUFACTURER_SPECIFIC_DATA);
         if (record == null) {
@@ -38,7 +35,13 @@ public class BleMeasure {
         IBeaconData ibeaconData = new IBeaconData(data);
         Log.d("BleMeasure", "getDistance: " + ibeaconData.toString());
         int txPower = ibeaconData.getCalibratedTxPower();
-        return getDistance(calculateAccuracy(txPower, rssi));
+        return calculateAccuracy(txPower, rssi);
+    }
+
+    @Distance
+    public static int getDistance(RxBleScanResult result) {
+        double accuracy = calculateAccuracy(result);
+        return getDistance(accuracy);
     }
 
 
@@ -57,7 +60,7 @@ public class BleMeasure {
         return distance == NEAR ? "NEAR" : distance == FAR ? "FAR" : distance == IMMEDIATE ? "IMMEDIATE" : "UNKNOWN";
     }
 
-    @IntDef({FAR, NEAR, IMMEDIATE, UNKNOWN,TOO_SHORT_DATA,NOT_A_BEACON})
+    @IntDef({FAR, NEAR, IMMEDIATE, UNKNOWN, TOO_SHORT_DATA, NOT_A_BEACON})
     @Retention(RetentionPolicy.SOURCE)
     public @interface Distance {
     }
