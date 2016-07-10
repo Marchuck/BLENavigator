@@ -27,5 +27,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile "com.polidea.rxandroidble:rxandroidble:1.0.1"
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
+    compile 'com.github.jorgecastilloprz:fillableloaders:1.03@aar'
 
 }
